@@ -42,6 +42,31 @@ extra_head: '<style>.delia-glow { text-shadow: 0 0 20px rgba(0,212,232,.6), 0 0 
   </div>
 </section>
 
+<!-- Line-up — the site roster (#964); announced acts flagged (status: upcoming). -->
+{% if site.data.settings.display.show_artists and site.data.artists.size > 0 %}
+<section id="lineup" class="py-16 px-4 sm:px-6 bg-black border-t border-zinc-900">
+  <div class="max-w-screen-xl mx-auto">
+    <p class="text-xs tracking-[0.25em] uppercase text-delia-cyan font-bold mb-4">The artists</p>
+    <h2 class="text-3xl sm:text-4xl font-black tracking-tight uppercase mb-10">{{ site.data.settings.display.artists_label | default: "Line-up" }}</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px bg-zinc-900">
+      {% for artist in site.data.artists %}
+      <a href="/artists/{{ artist.slug }}/" class="group relative aspect-square overflow-hidden bg-zinc-950">
+        {% if artist.photo %}
+        <img src="{{ artist.photo.square | default: artist.photo.medium }}" alt="{{ artist.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+        {% else %}
+        <div class="w-full h-full flex items-center justify-center text-zinc-700"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg></div>
+        {% endif %}
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-3">
+          {% if artist.status == "upcoming" %}<span class="block text-[9px] font-black uppercase tracking-widest text-delia-cyan mb-0.5">Announced</span>{% endif %}
+          <p class="text-sm font-bold text-white group-hover:text-delia-cyan transition-colors leading-tight">{{ artist.name }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <!-- Programme -->
 <section id="programme" class="py-16 px-4 sm:px-6 bg-black border-t border-zinc-900">
   <div class="max-w-screen-xl mx-auto">
